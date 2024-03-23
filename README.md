@@ -57,52 +57,16 @@ steps
   1. followed the steps and the backend is now configured for user authentication
 1. <https://docs.amplify.aws/gen2/start/quickstart/vite-react-app/#build-ui>
 1. `pnpm install @aws-amplify/ui-react`
+1. lint the project `pnpm run lint`
+1. build `pnpm run build`
 
+## Next steps
 
-import { useState, useEffect } from "react";
-import { generateClient } from "aws-amplify/data";
-import type { Schema } from "../../amplify/data/resource";
-
-export default function TodoList() {
-  // generate your data client using the Schema from your backend
-  const client = generateClient<Schema>();
-
-  const [todos, setTodos] = useState<Schema["Todo"][]>([]);
-
-  async function listTodos() {
-    // fetch all todos
-    const { data } = await client.models.Todo.list();
-    setTodos(data);
-  }
-
-  useEffect(() => {
-    listTodos()
-    const sub = client.models.Todo.observeQuery().subscribe(({ items }) =>
-     setTodos([...items])
-    );
-  
-    return () => sub.unsubscribe();
-  }, []);
-
-  return (
-      <div>
-        <h1>Todos</h1>
-        <button onClick={async () => {
-          // create a new Todo with the following attributes
-          const { errors, data: newTodo } = await client.models.Todo.create({
-            // prompt the user to enter the title
-            content: window.prompt("title"),
-            done: false,
-            priority: 'medium'
-          })
-          console.log(errors, newTodo);
-        }}>Create</button>
-
-        <ul>
-          {todos.map((todo) => (
-            <li key={todo.id}>{todo.content}</li>
-          ))}
-        </ul>
-      </div>
-    );
-}
+- [ ] change to have landing page - non authenticated state
+- [ ] login/signup button
+- [ ] setup OpenAI assistant
+- [ ] call my openAI assistant with secret
+- [ ] store assistant conversation as a user attribute
+- [ ] display assistant conversation
+- [ ] try the CI/CD branch deployments
+- [ ] look at the telemetry/logs ect in AWS console

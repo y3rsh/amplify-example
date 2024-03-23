@@ -2,13 +2,18 @@ import { withAuthenticator } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
 import TodoList from "./components/TodoList";
 import './App.css';
+import amplifyconfig from '../amplifyconfiguration.json';
+import { Amplify } from 'aws-amplify';
+import type { WithAuthenticatorProps } from '@aws-amplify/ui-react';
+import Hello from "./components/Hello";
+Amplify.configure(amplifyconfig);
 
-
-// Define your component as a named function
-function App() {
+function App({ signOut, user }: WithAuthenticatorProps) {
   return (
     <>
-      <h1>Hello, Amplify 👋</h1>
+      <h1>Welcome, this is Amplify 👋</h1>
+      <Hello user={user} />
+      <button onClick={signOut}>Sign out</button>
       <TodoList />
     </>
   );

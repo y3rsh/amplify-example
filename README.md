@@ -36,38 +36,41 @@ steps
 <https://docs.amplify.aws/gen2/start/quickstart/vite-react-app/>
 
 1. `nvs` select 20.11.1 (current LTS version of Node.js) <https://nodejs.org/en>
-1. `curl -fsSL https://get.pnpm.io/install.sh | sh -` <https://pnpm.io/installation>
+1. pnpm not supported in deployment so use npm
+  1. `curl -fsSL https://get.pnpm.io/install.sh | sh -` <https://npm.io/installation>
 1. navigate to the directory where you want to create the project
-1. `pnpm create vite@latest react-amplify-gen2 -- --template react-ts`
+1. `npm create vite@latest react-amplify-gen2 -- --template react-ts`
 1. `cd react-amplify-gen2`
-1. `pnpm install`
-1. `pnpm create amplify@beta`
+1. `npm install`
+1. `npm create amplify@beta`
 1. setup credentials <https://docs.amplify.aws/gen2/start/account-setup/>
-  1. `pnpm amplify configure profile --name dev-personal-josh`
+  1. `npm amplify configure profile --name dev-personal-josh`
   1. enter the access key and secret key and use `us-east-1` as the region
   1. for a real team use <https://docs.amplify.aws/gen2/start/account-setup/#configure-iam-identity-center>
-1. `pnpm amplify sandbox --profile dev-personal-josh`
+1. `npm amplify sandbox --profile dev-personal-josh`
   1. The given region has not been bootstrapped. Sign in to console as a Root user or Admin to complete the bootstrap process and re-run the amplify sandbox command.
   1. This auto opened the browser to the AWS console and I was already logged in as root user so I just clicked the "Complete bootstrap" button
-1. run the local dev server `pnpm run dev`
-1. `pnpm amplify sandbox --profile dev-personal-josh`
+1. run the local dev server `npm run dev`
+1. `npm amplify sandbox --profile dev-personal-josh`
   1. much output ✨ Deployment time: 253.1s
   1. now we are running and amplify is watching for changes
 1. followed the tutorial <https://docs.amplify.aws/gen2/start/quickstart/vite-react-app/>
   1. followed the steps and the backend is now configured for user authentication
 1. <https://docs.amplify.aws/gen2/start/quickstart/vite-react-app/#build-ui>
-1. `pnpm install @aws-amplify/ui-react`
-1. lint the project `pnpm run lint`
-1. build `pnpm run build`
+1. `npm install @aws-amplify/ui-react`
+1. lint the project `npm run lint`
+1. build `npm run build`
 
 #### Secrets
-// pnpm amplify sandbox secret set openAiApiKey --profile dev-personal-josh
-// pnpm amplify sandbox secret set openAiAssistantId --profile dev-personal-josh
+// npm amplify sandbox secret set openAiApiKey --profile dev-personal-josh
+// npm amplify sandbox secret set openAiAssistantId --profile dev-personal-josh
 can call `get` to make sure they are correct
-don't seem to be deleted when you `pnpm amplify sandbox delete --profile dev-personal-josh
+don't seem to be deleted when you `npm amplify sandbox delete --profile dev-personal-josh
 
 ### openai-test.js
 export OPENAI_API_KEY='your-api-key-here'
+node openai-test.js
+
 
 ## Next steps
 

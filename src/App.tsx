@@ -8,7 +8,7 @@ import type { WithAuthenticatorProps } from '@aws-amplify/ui-react';
 import Hello from "./components/Hello";
 Amplify.configure(amplifyconfig);
 
-function App({ signOut, user }: WithAuthenticatorProps) {
+function App({signOut, user }: WithAuthenticatorProps) {
   return (
     <>
       <h1>Welcome, this is Amplify 👋</h1>

@@ -60,10 +60,13 @@ steps
 1. lint the project `pnpm run lint`
 1. build `pnpm run build`
 
+
+// pnpm amplify sandbox secret set openAiApiKey --profile dev-personal-josh
+// pnpm amplify sandbox secret set openAiAssistantId --profile dev-personal-josh
+can call get to make sure they are correct
+
 ## Next steps
 
-- [ ] change to have landing page - non authenticated state
-- [ ] login/signup button
 - [ ] setup OpenAI assistant
 - [ ] call my openAI assistant with secret
 - [ ] store assistant conversation as a user attribute

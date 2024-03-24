@@ -1,11 +1,11 @@
 import { withAuthenticator } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
-import TodoList from "./components/TodoList";
 import './App.css';
 import amplifyconfig from '../amplifyconfiguration.json';
 import { Amplify } from 'aws-amplify';
 import type { WithAuthenticatorProps } from '@aws-amplify/ui-react';
 import Hello from "./components/Hello";
+import EmojifyComponent from "./components/EmojifyComponent";
 Amplify.configure(amplifyconfig);
 
 function App({signOut, user }: WithAuthenticatorProps) {
@@ -14,7 +14,7 @@ function App({signOut, user }: WithAuthenticatorProps) {
       <h1>Welcome, this is Amplify 👋</h1>
       <Hello user={user} />
       <button onClick={signOut}>Sign out</button>
-      <TodoList />
+      <EmojifyComponent />
     </>
   );
 }

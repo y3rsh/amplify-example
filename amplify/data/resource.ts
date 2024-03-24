@@ -1,56 +1,40 @@
-import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
+import { type ClientSchema, a, defineData, defineFunction, secret } from '@aws-amplify/backend';
 
-/*== STEP 1 ===============================================================
-The section below creates a Todo database table with a "content" field. Try
-adding a new "isDone" field as a boolean. The authorization rules below
-specify that owners, authenticated via your Auth resource can "create",
-"read", "update", and "delete" their own records. Public users,
-authenticated via an API key, can only "read" records.
-=========================================================================*/
+
+// 2. define a function
+const chatHandler = defineFunction({
+  name: 'chatHandler',
+  entry: './chat-handler/handler.ts',
+  timeoutSeconds: 30,
+  environment: {
+    OPENAI_API_KEY: secret('openAiApiKey'),
+    OPENAI_ASSISTANT_ID: secret('openAiAssistantId'),
+  },
+})
+
 const schema = a.schema({
-  Todo: a
-    .model({
-      content: a.string(),
-      done: a.boolean(),
-      priority: a.enum(['low', 'medium', 'high'])
+  // 1. Define your return type as a custom type
+  ChatResponse: a.customType({
+    reply: a.string(),
+  }),
+
+  // 2. Define your query with the return type and, optionally, arguments
+  chat: a
+    .query()
+    // arguments that this query accepts
+    .arguments({
+      input: a.string(),
     })
-    .authorization([a.allow.owner()]),
+    // return type of the query
+    .returns(a.ref('ChatResponse'))
+    // only allow signed-in users to call this API
+    .authorization([a.allow.private()])
+    // the function that will be called when this query is invoked
+    .handler(a.handler.function(chatHandler)),
 });
 
 export type Schema = ClientSchema<typeof schema>;
 
 export const data = defineData({
   schema,
-  authorizationModes: {
-    defaultAuthorizationMode: 'userPool'
-  }
 });
-
-/*== STEP 2 ===============================================================
-Go to your frontend source code. From your client-side code, generate a
-Data client to make CRUDL requests to your table. (THIS SNIPPET WILL ONLY
-WORK IN THE FRONTEND CODE FILE.)
-
-Using JavaScript or Next.js React Server Components, Middleware, Server 
-Actions or Pages Router? Review how to generate Data clients for those use
-cases: https://docs.amplify.aws/gen2/build-a-backend/data/connect-to-API/
-=========================================================================*/
-
-/*
-"use client"
-import { generateClient } from "aws-amplify/data";
-import { type Schema } from "@/amplify/data/resource";
-
-const client = generateClient<Schema>() // use this Data client for CRUDL requests
-*/
-
-/*== STEP 3 ===============================================================
-Fetch records from the database and use them in your frontend component.
-(THIS SNIPPET WILL ONLY WORK IN THE FRONTEND CODE FILE.)
-=========================================================================*/
-
-/* For example, in a React component, you can use this snippet in your
-  function's RETURN statement */
-// const { data: todos } = client.models.Todo.list()
-
-// return <ul>{todos.map(todo => <li key={todo.id}>{todo.content}</li>)}</ul>

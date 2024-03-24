@@ -60,16 +60,20 @@ steps
 1. lint the project `pnpm run lint`
 1. build `pnpm run build`
 
-
+#### Secrets
 // pnpm amplify sandbox secret set openAiApiKey --profile dev-personal-josh
 // pnpm amplify sandbox secret set openAiAssistantId --profile dev-personal-josh
-can call get to make sure they are correct
+can call `get` to make sure they are correct
+don't seem to be deleted when you `pnpm amplify sandbox delete --profile dev-personal-josh
+
+### openai-test.js
+export OPENAI_API_KEY='your-api-key-here'
 
 ## Next steps
 
-- [ ] setup OpenAI assistant
-- [ ] call my openAI assistant with secret
+- [X] setup OpenAI assistant
+- [X] call my openAI assistant with secret
 - [ ] store assistant conversation as a user attribute
-- [ ] display assistant conversation
+- [X] display assistant conversation
 - [ ] try the CI/CD branch deployments
-- [ ] look at the telemetry/logs ect in AWS console
+- [ ] look at the telemetry/logs etc. in AWS console (only available once deployed)

@@ -34,7 +34,7 @@ async function main() {
 
   const run = await openai.beta.threads.runs.create(thread.id, {
     assistant_id: assistantId,
-    additional_instructions: 'Please address the user as Jane Doe. The user has a premium account.',
+    additional_instructions: 'Please address the user as Josh. The user has a premium account.',
   });
 
   console.log('Created run with Id: ' + run.id);

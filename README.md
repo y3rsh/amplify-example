@@ -36,7 +36,7 @@ steps
 <https://docs.amplify.aws/gen2/start/quickstart/vite-react-app/>
 
 1. `nvs` select 20.11.1 (current LTS version of Node.js) <https://nodejs.org/en>
-1. pnpm not supported in deployment so use npm
+1. can switch to pnpm, just have to override the build
   1. `curl -fsSL https://get.pnpm.io/install.sh | sh -` <https://npm.io/installation>
 1. navigate to the directory where you want to create the project
 1. `npm create vite@latest react-amplify-gen2 -- --template react-ts`
@@ -66,6 +66,7 @@ steps
 // npm amplify sandbox secret set openAiAssistantId --profile dev-personal-josh
 can call `get` to make sure they are correct
 don't seem to be deleted when you `npm amplify sandbox delete --profile dev-personal-josh
+For the branch deployment these are managed in the Amplify Dashboard.
 
 ### openai-test.js
 export OPENAI_API_KEY='your-api-key-here'

@@ -3,23 +3,32 @@ import OpenAI from 'openai';
 import { sleep } from 'openai/core';
 import type { Schema } from '../resource'
 
-export const handler: Schema["chat"]["functionHandler"] = async (event): Promise<{ reply: string }> => {
+export const handler: Schema["chat"]["functionHandler"] = async (event): Promise<{ reply: string, threadId: string }> => {
     console.log('Received event:', JSON.stringify(event, null, 2));
     const openai = new OpenAI({ apiKey: env.OPENAI_API_KEY });
     const assistant = await openai.beta.assistants.retrieve(env.OPENAI_ASSISTANT_ID);
 
     console.log(' Found assistant: ' + assistant.name + ' with Id: ' + assistant.id);
-
-    const thread = await openai.beta.threads.create({
-        messages: [
-            {
-                role: 'user',
-                content: `"${event.arguments.input}"`,
-            },
-        ],
-    });
-
-    console.log('Created thread with Id: ' + thread.id);
+    let thread = null;
+    if (event.arguments.threadId.toLocaleLowerCase() === 'first'){
+        thread = await openai.beta.threads.create({
+            messages: [
+                {
+                    role: 'user',
+                    content: `"${event.arguments.input}"`,
+                },
+            ],
+        });
+        console.log('Created thread with Id: ' + thread.id);
+    }
+    else {
+        thread = await openai.beta.threads.retrieve(event.arguments.threadId);
+        await openai.beta.threads.messages.create(thread.id, {
+            role: 'user',
+            content: `"${event.arguments.input}"`,
+        });
+        console.log('Found thread with Id: ' + thread.id);
+    }
 
     const run = await openai.beta.threads.runs.create(thread.id, {
         assistant_id: assistant.id,
@@ -37,6 +46,7 @@ export const handler: Schema["chat"]["functionHandler"] = async (event): Promise
             console.log('Timeout reached. Current status: ' + result.status);
             return {
                 reply: 'Timeout reached. Please try again.',
+                threadId: thread.id,
             };
         }
         if (result.status == 'completed') {
@@ -46,12 +56,14 @@ export const handler: Schema["chat"]["functionHandler"] = async (event): Promise
                 console.log(firstMessage.text.value);
                 return {
                     reply: firstMessage.text.value,
+                    threadId: thread.id,
                 };
              }
              else{
                 console.log("No messages found.");
                 return {
                     reply: "",
+                    threadId: thread.id,
                 };
             }
         } else {
@@ -64,5 +76,6 @@ export const handler: Schema["chat"]["functionHandler"] = async (event): Promise
     console.log("Loop exited without returning.");
     return {
         reply: "",
+        threadId: thread.id,
     };
 };

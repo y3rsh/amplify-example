@@ -15,15 +15,22 @@ const chatHandler = defineFunction({
 const schema = a.schema({
   // 1. Define your return type as a custom type
   ChatResponse: a.customType({
-    reply: a.string(),
+    reply: a.string().required(),
+    threadId: a.string().required()
   }),
+
+  UserThread: a.model({
+    email: a.email().required(),
+    threadId: a.string().required(),
+  }).identifier(['email']).authorization([a.allow.private()]),
 
   // 2. Define your query with the return type and, optionally, arguments
   chat: a
     .query()
     // arguments that this query accepts
     .arguments({
-      input: a.string(),
+      input: a.string().required(),
+      threadId: a.string().required(),
     })
     // return type of the query
     .returns(a.ref('ChatResponse'))

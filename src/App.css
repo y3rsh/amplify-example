@@ -1,11 +1,21 @@
+/* Root styles should facilitate center alignment and responsiveness */
 #root {
   display: flex;
-  justify-content: top; /* Horizontal centering */
-  align-items: left; /* Vertical centering */
-  flex-direction: column; /* Stack children vertically */
-  min-height: 100vh; /* Take at least full viewport height */
+  justify-content: center; /* Corrected for horizontal centering */
+  align-items: center; /* Corrected for vertical centering */
+  flex-direction: column;
+  min-height: 100vh;
+  width: 90%; /* Default to 90% width for mobile-first design */
   margin: 0 auto;
   padding: 2rem;
+  box-sizing: border-box; /* Ensure padding doesn't affect width */
+}
+
+/* Adjust max-width for desktop screens */
+@media (min-width: 768px) {
+  #root {
+    max-width: 50%; /* 50% width for larger screens */
+  }
 }
 
 .logo {
@@ -14,9 +24,11 @@
   will-change: filter;
   transition: filter 300ms;
 }
+
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
+
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
@@ -43,3 +55,74 @@
 .read-the-docs {
   color: #888;
 }
+
+.container {
+  max-width: 50%;
+  margin: 0 auto;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+input {
+  width: calc(100% - 20px); /* Full width minus padding, corrected */
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  outline: none;
+  margin: 0 10px 10px 0;
+  box-sizing: border-box;
+}
+
+button {
+  padding: 10px 15px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+}
+
+
+
+/* Text with borders */
+.group {
+  border: 1px solid #ccc; /* Light grey border */
+  padding: 10px;
+  border-radius: 5px;
+  box-sizing: border-box;
+  justify-content: center; /* Corrected for horizontal centering */
+}
+
+
+/* Spinner */
+
+.parent-container-relative {
+  position: relative; /* Allows absolute positioning relative to this container */
+  display: flex;
+  justify-content: center; /* Center children horizontally */
+  align-items: center; /* Center children vertically */
+}
+
+
+.cool-spinner-center-relative {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100px; /* Adjust size as needed */
+  height: 100px; /* Adjust size as needed */
+  border: 16px solid #f3f3f3; /* Light grey spinner */
+  border-top-color: blue; /* Spinner color */
+  border-radius: 50%; /* Circular spinner */
+  animation: spin 2s linear infinite;
+  transform: translate(-50%, -50%); /* Center the spinner */
+}
+
+@keyframes spin {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+

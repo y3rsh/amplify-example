@@ -39,7 +39,7 @@ const EmojifyComponent: React.FC = () => {
       // Step 2: Call chat with threadId
       const response = await client.queries.chat({ input, threadId });
       const reply = response?.data?.reply || 'No reply';
-      
+
       // Step 3: If threadId was 'FiRsT', handle pushing the new record
       if (threadId === 'FiRsT' && response?.data?.threadId) {
         // Example of handling a new thread ID, adjust based on actual API and requirements
@@ -61,17 +61,17 @@ const EmojifyComponent: React.FC = () => {
   };
 
   return (
-    <div>
-      <div>
+    <div className='container'>
+      <div >
         {responsePairs.map(({ input, reply }, index) => (
           // Render both input and reply
-          <div key={index}>
+          <div key={index} className='group'>
             <p><strong>Input:</strong> {input}</p>
             <p><strong>Reply:</strong> {reply}</p>
           </div>
         ))}
       </div>
-      <div style={{ position: 'relative' }}>
+      <div className="parent-container-relative">
         <input
           value={input}
           onChange={(e) => setInput(e.target.value)}
@@ -81,7 +81,7 @@ const EmojifyComponent: React.FC = () => {
         <button onClick={handleEmojifyClick} disabled={loading || !userEmail}>
           Emojify
         </button>
-        {loading && <div style={{ position: 'absolute', top: 0, left: 0 }}>Loading...</div>}
+        {loading && <div className="cool-spinner-center-relative"></div>}
       </div>
     </div>
   );
